@@ -2,7 +2,7 @@
 """Daily snapshot of gold/silver/FX into docs/data/history.json (run by GitHub Actions)."""
 import json, os, urllib.request, datetime
 OUT = os.environ.get("OUT_DIR", "docs")
-CODES = "USD EUR SAR AED EGP KWD QAR BHD OMR JOD IQD MAD DZD TND ILS TRY IDR".split()
+CODES = "USD EUR SAR AED EGP KWD QAR BHD OMR JOD IQD MAD DZD TND ILS TRY IDR GBP INR PKR MYR CAD AUD JPY CHF RUB CNY BRL".split()
 def get(u):
     with urllib.request.urlopen(urllib.request.Request(u, headers={"User-Agent": "gold-fx-bot"}), timeout=30) as r:
         return json.load(r)

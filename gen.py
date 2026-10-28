@@ -111,6 +111,20 @@ COUNTRIES = [
 ("indonesia", "IDR", 24, "إندونيسيا|Indonesia|Indonésie|Endonezya|Indonesia|Indonesia"),
 ("france", "EUR", 18, "فرنسا|France|France|Fransa|Prancis|Francia"),
 ("spain", "EUR", 18, "إسبانيا|Spain|Espagne|İspanya|Spanyol|España"),
+("usa", "USD", 24, "الولايات المتحدة|United States|États-Unis|Amerika Birleşik Devletleri|Amerika Serikat|Estados Unidos"),
+("uk", "GBP", 22, "المملكة المتحدة|United Kingdom|Royaume-Uni|Birleşik Krallık|Britania Raya|Reino Unido"),
+("germany", "EUR", 24, "ألمانيا|Germany|Allemagne|Almanya|Jerman|Alemania"),
+("italy", "EUR", 18, "إيطاليا|Italy|Italie|İtalya|Italia|Italia"),
+("india", "INR", 22, "الهند|India|Inde|Hindistan|India|India"),
+("pakistan", "PKR", 22, "باكستان|Pakistan|Pakistan|Pakistan|Pakistan|Pakistán"),
+("malaysia", "MYR", 22, "ماليزيا|Malaysia|Malaisie|Malezya|Malaysia|Malasia"),
+("canada", "CAD", 24, "كندا|Canada|Canada|Kanada|Kanada|Canadá"),
+("australia", "AUD", 24, "أستراليا|Australia|Australie|Avustralya|Australia|Australia"),
+("japan", "JPY", 24, "اليابان|Japan|Japon|Japonya|Jepang|Japón"),
+("switzerland", "CHF", 24, "سويسرا|Switzerland|Suisse|İsviçre|Swiss|Suiza"),
+("russia", "RUB", 24, "روسيا|Russia|Russie|Rusya|Rusia|Rusia"),
+("china", "CNY", 24, "الصين|China|Chine|Çin|Tiongkok|China"),
+("brazil", "BRL", 24, "البرازيل|Brazil|Brésil|Brezilya|Brasil|Brasil"),
 ]
 CUR = {
 "USD": ("2", "الدولار الأمريكي|US Dollar|Dollar américain|ABD Doları|Dolar AS|Dólar estadounidense"),
@@ -130,8 +144,19 @@ CUR = {
 "ILS": ("2", "الشيكل|Israeli Shekel|Shekel israélien|İsrail Şekeli|Shekel Israel|Shéquel israelí"),
 "TRY": ("2", "الليرة التركية|Turkish Lira|Livre turque|Türk Lirası|Lira Turki|Lira turca"),
 "IDR": ("0", "الروبية الإندونيسية|Indonesian Rupiah|Roupie indonésienne|Endonezya Rupisi|Rupiah Indonesia|Rupia indonesia"),
+"GBP": ("2", "الجنيه الإسترليني|British Pound|Livre sterling|İngiliz Sterlini|Pound Inggris|Libra esterlina"),
+"INR": ("0", "الروبية الهندية|Indian Rupee|Roupie indienne|Hindistan Rupisi|Rupee India|Rupia india"),
+"PKR": ("0", "الروبية الباكستانية|Pakistani Rupee|Roupie pakistanaise|Pakistan Rupisi|Rupee Pakistan|Rupia pakistaní"),
+"MYR": ("2", "الرينغيت الماليزي|Malaysian Ringgit|Ringgit malaisien|Malezya Ringgiti|Ringgit Malaysia|Ringgit malayo"),
+"CAD": ("2", "الدولار الكندي|Canadian Dollar|Dollar canadien|Kanada Doları|Dolar Kanada|Dólar canadiense"),
+"AUD": ("2", "الدولار الأسترالي|Australian Dollar|Dollar australien|Avustralya Doları|Dolar Australia|Dólar australiano"),
+"JPY": ("0", "الين الياباني|Japanese Yen|Yen japonais|Japon Yeni|Yen Jepang|Yen japonés"),
+"CHF": ("2", "الفرنك السويسري|Swiss Franc|Franc suisse|İsviçre Frangı|Franc Swiss|Franco suizo"),
+"RUB": ("0", "الروبل الروسي|Russian Ruble|Rouble russe|Rus Rublesi|Rubel Rusia|Rublo ruso"),
+"CNY": ("2", "اليوان الصيني|Chinese Yuan|Yuan chinois|Çin Yuanı|Yuan Tiongkok|Yuan chino"),
+"BRL": ("2", "الريال البرازيلي|Brazilian Real|Réal brésilien|Brezilya Reali|Real Brasil|Real brasileño"),
 }
-HUBS = {"USD", "EUR", "TRY", "SAR", "AED", "EGP", "IDR"}
+HUBS = {"USD", "EUR", "GBP", "TRY", "SAR", "AED", "EGP", "IDR"}
 KARATS = [24, 22, 21, 18, 14]
 
 def cname(code, lang): return CUR[code][1].split("|")[LANGS.index(lang)]
@@ -220,7 +245,7 @@ function zakat(H,d){
     ns=d.xag?595*d.xag/OZ*rt:85*pg(d,24,cur),k=dec(cur);
     $('zn').textContent=nf(ns,k);$('zw').textContent=nf(w,k);
     $('zr').textContent=w>=ns?(nf(w*0.025,k)+' '+cur):P.notdue;}
-  function dec(cur){return cur==='KWD'||cur==='BHD'||cur==='OMR'||cur==='JOD'||cur==='TND'?3:(cur==='EGP'||cur==='IQD'||cur==='DZD'||cur==='IDR'?0:2)}
+  function dec(cur){return P.decs&&P.decs[cur]!=null?P.decs[cur]:2}
   ids.concat(['zc']).forEach(function(i){$(i).oninput=f;$(i).onchange=f});f();
 }
 function share(){var b=$('share');if(!b)return;b.onclick=function(){var u=location.href,tt=document.title;
@@ -339,11 +364,11 @@ def zakat_page(lang):
 <p class="m">{t('z_nisab', lang)}: <b id="zn">…</b> · {t('z_wealth', lang)}: <b id="zw">…</b></p>
 <div class="m">{t('z_due', lang)}</div><div class="big" id="zr">…</div><p class="m">{t('upd', lang)}: <span id="upd">…</span></p>
 <p class="m">{t('z_note', lang)}</p><p><button id="share" type="button">{t('share', lang)}</button></p></div>{ad(lang)}"""
-    return page(lang, "zakat.html", t("zakat_h1", lang) + " | " + t("name", lang), t("zakat_desc", lang), body, {"type": "zakat", "cur": "USD", "dec": 2})
+    return page(lang, "zakat.html", t("zakat_h1", lang) + " | " + t("name", lang), t("zakat_desc", lang), body, {"type": "zakat", "cur": "USD", "dec": 2, "decs": {k: dec(k) for k in CUR}})
 
 def home_page(lang):
     gl = "".join(f'<a href="{href(lang, "gold/" + c[0] + ".html")}">{esc(country_name(c, lang))}</a>' for c in COUNTRIES)
-    featured = [("USD", "EGP"), ("USD", "SAR"), ("USD", "TRY"), ("USD", "IDR"), ("EUR", "USD"), ("USD", "AED"), ("EUR", "TRY"), ("SAR", "EGP"), ("USD", "MAD"), ("EUR", "EGP"), ("USD", "IQD"), ("USD", "DZD")]
+    featured = [("USD", "EGP"), ("USD", "SAR"), ("USD", "TRY"), ("USD", "IDR"), ("EUR", "USD"), ("USD", "AED"), ("EUR", "TRY"), ("SAR", "EGP"), ("USD", "MAD"), ("EUR", "EGP"), ("USD", "IQD"), ("USD", "DZD"), ("GBP", "USD"), ("USD", "INR"), ("USD", "PKR"), ("EUR", "GBP"), ("USD", "JPY"), ("USD", "CNY")]
     fl = "".join(f'<a href="{href(lang, f"rate/{p.lower()}-{q.lower()}.html")}">{p} → {q}</a>' for p, q in featured if (p, q) in PAIRS)
     body = f"""<h1>{esc(t('home_h1', lang))}</h1><p>{t('home_p', lang)}</p>
 <div class="card hero"><div class="m">XAU / USD · {t('ounce', lang)}</div><div class="big">$<span id="oz">…</span></div></div>{ad(lang)}

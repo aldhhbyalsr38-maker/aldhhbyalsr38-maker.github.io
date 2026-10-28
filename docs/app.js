@@ -49,7 +49,7 @@ function zakat(H,d){
     ns=d.xag?595*d.xag/OZ*rt:85*pg(d,24,cur),k=dec(cur);
     $('zn').textContent=nf(ns,k);$('zw').textContent=nf(w,k);
     $('zr').textContent=w>=ns?(nf(w*0.025,k)+' '+cur):P.notdue;}
-  function dec(cur){return cur==='KWD'||cur==='BHD'||cur==='OMR'||cur==='JOD'||cur==='TND'?3:(cur==='EGP'||cur==='IQD'||cur==='DZD'||cur==='IDR'?0:2)}
+  function dec(cur){return P.decs&&P.decs[cur]!=null?P.decs[cur]:2}
   ids.concat(['zc']).forEach(function(i){$(i).oninput=f;$(i).onchange=f});f();
 }
 function share(){var b=$('share');if(!b)return;b.onclick=function(){var u=location.href,tt=document.title;
